@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 import yargs from "yargs";
 import {hideBin} from "yargs/helpers"
-import {findNotes, getAllNotes, newNote, removeNote} from "./notes.js";
+import {findNotes, getAllNotes, newNote, removeAllNotes, removeNote} from "./notes.js";
+import {start} from "./server.js";
 
 const listNotes = notes => {
     notes.forEach(({id, content, tags}) => {
@@ -28,7 +29,8 @@ yargs(hideBin(process.argv))
         type: "string",
         description: "tags to add to the note"
     })
-    .command("all", "get all notes", () => {}, async (argv) => {
+    .command("all", "get all notes", () => {
+    }, async (argv) => {
         const notes = await getAllNotes()
         listNotes(notes)
     })
@@ -48,7 +50,11 @@ yargs(hideBin(process.argv))
             })
     }, async (argv) => {
         const id = await removeNote(argv.id)
-        console.log(id)
+        if (id) {
+            console.log('Note removed: ', id)
+        } else {
+            console.log('Note not found')
+        }
     })
     .command("web [port]", "launch website to see notes", yargs => {
         return yargs
@@ -57,7 +63,14 @@ yargs(hideBin(process.argv))
                 default: 5000,
                 type: "number"
             })
-    }, async (argv) => {})
-    .command("clean", "remove all notes", () => {}, async (argv) => {})
+    }, async (argv) => {
+        const notes = await getAllNotes()
+        start(notes, argv.port)
+    })
+    .command("clean", "remove all notes", () => {
+    }, async (argv) => {
+        await removeAllNotes()
+        console.log("db reseted")
+    })
     .demandCommand(1)
     .parse()
