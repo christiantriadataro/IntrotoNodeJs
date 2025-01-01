@@ -1,8 +1,29 @@
+import {jest} from "@jest/globals"
+import {test, beforeEach} from "node:test"
+jest.unstable_mockModule("../src/db.js", () => ({
+    insertDB: jest.fn(),
+    getDB: jest.fn(),
+    saveDB: jest.fn(),
+}))
 
+const {insertDB, getDB, saveDB} = await import ("../src/db.js")
+const {newNote, getAllNotes, removeNote} = await import ("../src/notes.js")
 
-const add = (num1, num2) => num1 + num2;
+beforeEach(() => {
+    insertDB.mockClear();
+    getDB.mockClear();
+    saveDB.mockClear();
+})
 
-test("add takes two numbers and returns a sum", () => {
-    const result = add(1, 2)
-    expect(result).toBe(3)
+test("newNote inserts data and returns it", async () => {
+    const note = {
+        content: "This is my note",
+        id: 1,
+        tags: ["hello"]
+    }
+    insertDB.mockResolvedValue(note);
+
+    const result = await newNote(note.content, note.tags);
+    expect(result.content).toEqual(note.content);
+    expect(result.tags).toEqual(note.tags);
 })
