@@ -17,7 +17,7 @@ export const getAllNotes = async () => {
 
 export const findNotes = async (filter) => {
     const { notes } = await getDB()
-    return notes.filter(note => note.content.toLowerCase().includes(filter.toLowerCase())
+    return notes.filter(note => note.content.toLowerCase().includes(filter.toLowerCase()))
 }
 
 export const removeNote = async (id) => {

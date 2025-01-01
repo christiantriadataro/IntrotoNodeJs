@@ -1,3 +1,17 @@
 {
-  "notes": {}
+    "notes": [
+        {
+            "tags": [
+                "work",
+                " serious"
+            ],
+            "content": "clean my room",
+            "id": 1735729108575
+        },
+        {
+            "tags": [],
+            "content": "clean my bedroom",
+            "id": 1735729122870
+        }
+    ]
 }
