@@ -1,8 +1,11 @@
 ##### Tech - Stack
 - Jest
 - Node
+- node:test
+- node:path
 - Yargs
 - JavaScript
+- asserting
 
 
 tenant portal 
@@ -10,4 +13,3 @@ tenant portal
 - logging
 - vault
 - adding image to production 
-- 
